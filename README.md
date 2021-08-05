@@ -20,7 +20,7 @@ You have to create database schema by name "movieDB". It's up to you can change 
 - Run db migration down all versions:
 
     ```bash
-    make migratedown
+    make migrateup
     ```
 
 ### How to generate code
