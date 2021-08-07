@@ -24,7 +24,6 @@ type Querier interface {
 	GetTransactions(ctx context.Context, arg GetTransactionsParams) ([]Transaction, error)
 	GetTransfer(ctx context.Context, id int64) (Transfer, error)
 	GetUser(ctx context.Context, userName string) (User, error)
-	ListAccountDetails(ctx context.Context, arg ListAccountDetailsParams) ([]AccountDetail, error)
 	ListTransfers(ctx context.Context, arg ListTransfersParams) ([]Transfer, error)
 	UpdateAccountBalance(ctx context.Context, arg UpdateAccountBalanceParams) (AccountDetail, error)
 	UpdateAccountDetails(ctx context.Context, arg UpdateAccountDetailsParams) (AccountDetail, error)

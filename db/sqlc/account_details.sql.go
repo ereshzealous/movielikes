@@ -78,48 +78,6 @@ func (q *Queries) GetAccountDetailsForUpdate(ctx context.Context, id int64) (Acc
 	return i, err
 }
 
-const listAccountDetails = `-- name: ListAccountDetails :many
-SELECT id, user_name, balance, created_at FROM account_details
-WHERE user_name = $1
-ORDER BY id
-LIMIT $2
-OFFSET $3
-`
-
-type ListAccountDetailsParams struct {
-	UserName string `json:"user_name"`
-	Limit    int32  `json:"limit"`
-	Offset   int32  `json:"offset"`
-}
-
-func (q *Queries) ListAccountDetails(ctx context.Context, arg ListAccountDetailsParams) ([]AccountDetail, error) {
-	rows, err := q.db.QueryContext(ctx, listAccountDetails, arg.UserName, arg.Limit, arg.Offset)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []AccountDetail{}
-	for rows.Next() {
-		var i AccountDetail
-		if err := rows.Scan(
-			&i.ID,
-			&i.UserName,
-			&i.Balance,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const updateAccountBalance = `-- name: UpdateAccountBalance :one
 UPDATE account_details
 SET balance = balance + $1
